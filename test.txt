@@ -1,3 +1,4 @@
 test
 Rebase hotfix
 Squash 1
+Squash 2
