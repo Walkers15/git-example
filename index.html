@@ -2,8 +2,8 @@
 
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>동국의대 체중측정기</title>
-
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
   <script src="https://unpkg.com/element-ui/lib/index.js"></script>
   <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css" />
@@ -11,86 +11,78 @@
 <style>
   /* ==================== inner input ==================== */
   @import url("//unpkg.com/element-ui@2.4.7/lib/theme-chalk/index.css");
-
-  .demo-progress .el-progress--line {
-    margin-bottom: 15px;
-  }
-
-  .box-card {
-    /* width: 520px; */
-    margin-bottom: 15px;
-  }
 </style>
 
-<el-container id="app">
-  <el-header>
-    <el-image style="width: 100px; height: 100px; float: right;"
-      src="https://www.dongguk.edu/resources/images/site/contents/symbol_01.png" fit="contain"></el-image>
-  </el-header>
-  <el-main>
-    <el-card>
-      <template #header>
-        <div class="card-header" style="text-align: center;">
-          <span>동국의대 체중측정기</span>
-        </div>
-      </template>
+<body>
+  <el-container id="app">
+    <el-header>
+      <el-image style="width: 100px; height: 100px; float: right;"
+        src="https://www.dongguk.edu/resources/images/site/contents/symbol_01.png" fit="contain"></el-image>
+    </el-header>
+    <el-main>
       <el-card>
-        <el-row>
-          <el-collapse>
-            <el-collapse-item title="연구에 대해" name="1">
-              <div>
-                🚑응급 상황에서 약물 투여 시, 환자의 체중에 맞추어 정확한 용량
-                을 신속하게 투여할 필요가 있습니다. 하지만 환자가 의식이 없을 경
-                우, 체중을 정확히 알 수 없어 어림짐작하여 약물을 투여합니다. 이
-                과정에서 발생하는 심각한 오류를 줄이기 위해, 저희는 쉽게 측정 가
-                능한 신체 둘레를 활용하여 체중값을 추정식을 유도하고자 합니다.
-              </div>
-            </el-collapse-item>
-            <el-collapse-item title="측정법" name="2">
-              <div>
-                예상 체중 = -37.448 + 0.814 * 복부 둘레 + 1.279 * 왼쪽 팔 둘레
-              </div>
-            </el-collapse-item>
-          </el-collapse>
-        </el-row>
-        <el-row style="margin-top: 20px;">
-          <el-form label-position="right" label-width="100px">
-            <el-form-item label="복부 둘레">
-              <el-input v-model="belly" type="number"></el-input>
-            </el-form-item>
-            <el-form-item label="왼쪽 팔 둘레">
-              <el-input v-model="arm" type="number"></el-input>
-            </el-form-item>
-          </el-form>
-          <el-button style="float: right;" @click="calculate">계산하기</el-button>
-        </el-row>
-        <el-row style="text-align: center;">
-          <span>예상 체중: </span>
-          <span>{{weight}}</span>
-        </el-row>
+        <template #header>
+          <div class="card-header" style="text-align: center;">
+            <span>동국의대 체중측정기</span>
+          </div>
+        </template>
+        <el-card>
+          <el-row>
+            <el-collapse>
+              <el-collapse-item title="연구에 대해" name="1">
+                <div>
+                  🚑응급 상황에서 약물 투여 시, 환자의 체중에 맞추어 정확한 용량
+                  을 신속하게 투여할 필요가 있습니다. 하지만 환자가 의식이 없을 경
+                  우, 체중을 정확히 알 수 없어 어림짐작하여 약물을 투여합니다. 이
+                  과정에서 발생하는 심각한 오류를 줄이기 위해, 저희는 쉽게 측정 가
+                  능한 신체 둘레를 활용하여 체중값을 추정식을 유도하고자 합니다.
+                </div>
+              </el-collapse-item>
+              <el-collapse-item title="측정법" name="2">
+                <div>
+                  예상 체중 = -37.448 + 0.814 * 복부 둘레 + 1.279 * 왼쪽 팔 둘레
+                </div>
+              </el-collapse-item>
+            </el-collapse>
+          </el-row>
+          <el-row style="margin-top: 20px;">
+            <el-form label-position="right" label-width="100px">
+              <el-form-item label="복부 둘레">
+                <el-input v-model="belly" type="number"></el-input>
+              </el-form-item>
+              <el-form-item label="왼쪽 팔 둘레">
+                <el-input v-model="arm" type="number"></el-input>
+              </el-form-item>
+            </el-form>
+            <el-button style="float: right;" @click="calculate">계산하기</el-button>
+          </el-row>
+          <el-row style="text-align: center;">
+            <span>예상 체중: </span>
+            <span>{{weight}}</span>
+          </el-row>
+        </el-card>
       </el-card>
-    </el-card>
-  </el-main>
-</el-container>
-<script>
-  new Vue({
-    el: "#app",
-    data() {
-      return {
-        belly: null,
-        arm: null,
-        weight: null,
-        // age: 0,
-        numberValidateForm: { a: '' }
+    </el-main>
+  </el-container>
+  <script>
+    new Vue({
+      el: "#app",
+      data() {
+        return {
+          belly: null,
+          arm: null,
+          weight: null,
+          // age: 0,
+          numberValidateForm: { a: '' }
+        }
+      },
+      methods: {
+        calculate() {
+          this.weight = -37.448 + 0.814 * Number(this.belly) + 1.279 * Number(this.arm);
+        }
       }
-    },
-    methods: {
-      calculate() {
-        this.weight = -37.448 + 0.814 * Number(this.belly) + 1.279 * Number(this.arm);
-      }
-    }
-  });
-</script>
+    });
+  </script>
 </body>
 
 </html>
