@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>동국의대 체중측정기</title>
+  <title>동국의대 체중추정기</title>
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
   <script src="https://unpkg.com/element-ui/lib/index.js"></script>
   <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css" />
@@ -11,6 +11,19 @@
 <style>
   /* ==================== inner input ==================== */
   @import url("//unpkg.com/element-ui@2.4.7/lib/theme-chalk/index.css");
+
+  .detail {
+    /* border: 1px 0px 1px 0px solid #ccc; */
+    /* border: 1px solid #ccc; */
+    border-left: 1px solid #ccc;
+    /* border-right: 3px solid #ccc; */
+  }
+
+  .measure .el-row {
+    /* border: px 1px 0px 1px solid #ccc; */
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+  }
 </style>
 
 <body>
@@ -22,41 +35,89 @@
     <el-main>
       <el-card>
         <template #header>
-          <div class="card-header" style="text-align: center;">
-            <span>동국의대 체중측정기</span>
+          <div class="card-header" style="text-align: center; margin-bottom: 10px;">
+            <div>동국의대 체중추정기</div>
+            <div style="float: right;">by 예의범절</div>
           </div>
         </template>
         <el-card>
           <el-row>
             <el-collapse>
-              <el-collapse-item title="연구에 대해" name="1">
+              <el-collapse-item title="연구 소개" name="1">
                 <div>
-                  🚑응급 상황에서 약물 투여 시, 환자의 체중에 맞추어 정확한 용량
-                  을 신속하게 투여할 필요가 있습니다. 하지만 환자가 의식이 없을 경
-                  우, 체중을 정확히 알 수 없어 어림짐작하여 약물을 투여합니다. 이
-                  과정에서 발생하는 심각한 오류를 줄이기 위해, 저희는 쉽게 측정 가
-                  능한 신체 둘레를 활용하여 체중값을 추정식을 유도하고자 합니다.
+                  🚑응급 상황에서 약물 투여 시, 환자의 체중에 맞추어 정확한 용량을 신속하게 투여할 필요가 있습니다. 하지만 환자가 의식이 없을 경우, 체중을 정확히 알 수 없어 어림짐작하여 약물을
+                  투여합니다. 이 과정에서 발생하는 심각한 오류를 줄이기 위해, 저희는 쉽게 측정 가능한 신체 둘레를 활용하여 체중 추정식을 유도하는 연구를 진행했습니다.
+                  <br><br>
+                  by 2023 동국대학교 의과대학 예방의학 5조 예의범절
+                  <br>
+                  연구원: 정승원, 강민재, 김현규, 이수민, 박주영, 손범수, 이승은, 박도현, 이선우
                 </div>
               </el-collapse-item>
-              <el-collapse-item title="측정법" name="2">
+              <el-collapse-item title="상세 연구 내용" name="2">
                 <div>
-                  예상 체중 = -37.448 + 0.814 * 복부 둘레 + 1.279 * 왼쪽 팔 둘레
+                  동국대학교 wise캠퍼스 구성원들을 대상으로 남성 105명, 여성 82명의 자료를 수집하여 다중회귀분석을 진행했습니다.
+                  <br><br>
+                  - 신체 둘레가 체중에 미치는 영향을 다중 회귀분석을 통해 분석한 결과는 다음과 같습니다.
                 </div>
+                <el-image src="img/table1.png" fit="contain"></el-image>
+                <div>
+                  성별은 범주형 자료이나 설명력이 크지 않기에 더미변수화하여 투입하였습니다.
+                  <br><br>
+                  - 응급상황을 고려하여, 가장 유의한 2가지 변수를 선택하여 (수정된 R 제곱이 0.912) 체중 예측식을 도출해냈습니다.
+                </div>
+                <el-image src="img/table2.png" fit="contain"></el-image>
+                <div>예측 체중 = -37.448 + 0.814*(복부 둘레) + 1.279*(왼쪽 위팔 둘레)</div>
+                <div><br>
+                  - 새로운 표본 36명을 대상으로 회귀식을 적용하여 얻은 예측 체중과 실측 체중을 비교하였습니다. 일표본 T검정 결과, 평균이 1과 거의 가까운 0.9965이고, 유의확률이
+                  0.721이므로 예측 체중과 실측 체중이 같다고 판단했습니다.
+                </div>
+                <el-image src="img/table3.png" fit="contain"></el-image>
+                <div style="color: red;">
+                  <br>
+                  <strong>:: 주의사항 ::</strong>
+                </div>
+                <el-image src="img/table4.png" fit="contain"></el-image>
+                <strong style="color: red;">
+                  체중 추정기는 다음과 같이 주로 20대의 표본을 바탕으로 제작되었습니다. 그 이상의
+                  나이대에는 추가 검정이 필요하기에 사용 시 주의를 바랍니다.
+                </strong>
+              </el-collapse-item>
+              <el-collapse-item title="측정법" name="3">
+                <!-- <div class="measure" style="border: 1px solid #ccc;">
+                  <el-row>
+                    <el-col style="margin-top: 10px;" :span="6">측정법</el-col>
+                    <el-col class="detail" :span="18">복부 : 배꼽에서의 수평 둘레<br>위팔 : axillary fossa에서의 최단 둘레 (양쪽 모두
+                      측정)</el-col>
+                  </el-row>
+                  <el-row>
+                    <el-col :span="6" style="margin-top: 30px;">측정 자세</el-col>
+                    <el-col class="detail" :span="18">
+                      anatomical position에서 측정한다.<br>
+                      근육에 힘을 뺀 상태에서 편안하게 측정한다.<br>
+                      복부는 숨을 기능적 잔기랑(FRC)까지 내쉰 상태에서 측정한다.
+                    </el-col>
+                  </el-row>
+                  <el-row>
+                    <el-col :span="6">측정 강도</el-col>
+                    <el-col class="detail" :span="18">줄자를 피부에 댄 상태에서 힘을 주지 않고 측정한다.</el-col>
+                  </el-row>
+                </div> -->
+                <el-image src="img/table5.png" fit="contain"></el-image>
               </el-collapse-item>
             </el-collapse>
           </el-row>
           <el-row style="margin-top: 20px;">
-            <el-form label-position="right" label-width="100px">
+            <el-form label-position="right" label-width="120px">
               <el-form-item label="복부 둘레">
                 <el-input v-model="belly" type="number"></el-input>
               </el-form-item>
-              <el-form-item label="왼쪽 팔 둘레">
+              <el-form-item label="왼쪽 위팔 둘레">
                 <el-input v-model="arm" type="number"></el-input>
               </el-form-item>
             </el-form>
             <el-button style="float: right;" @click="calculate">계산하기</el-button>
           </el-row>
-          <el-row style="text-align: center;">
+          <el-row style="margin-top: 10px; text-align: center;">
             <span>예상 체중: </span>
             <span>{{weight}}</span>
           </el-row>
