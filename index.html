@@ -2,7 +2,7 @@
 
 <head>
   <meta charset="UTF-8" />
-  <title>Score Test</title>
+  <title>동국의대 체중측정기</title>
 
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
   <script src="https://unpkg.com/element-ui/lib/index.js"></script>
@@ -23,63 +23,74 @@
 </style>
 
 <el-container id="app">
+  <el-header>
+    <el-image style="width: 100px; height: 100px; float: right;"
+      src="https://www.dongguk.edu/resources/images/site/contents/symbol_01.png" fit="contain"></el-image>
+  </el-header>
   <el-main>
-    <el-card class="box-card">
-      전략 선택하기
-      <el-select v-model="strategyIndex" class="m-2" placeholder="Select" @change="changeStrategy">
-        <el-option v-for="item in options" :key="item.label" :label="item.label" :value="item.value" />
-      </el-select>
-      <el-card style="margin-top: 15px;">
-        <div style="margin-bottom: 15px">현재 전략</div>
-        <div v-if="strategyIndex != null">
-          <div>
-            <div>개별 점수 산정방식</div>
-            <div v-if="strategyText[strategyIndex].each">{{strategyText[strategyIndex].each}}</div>
-            <div v-else>없음</div>
-          </div>
-          <div style="margin-top: 10px">
-            <div>총 점수 산정방식</div>
-            <div v-if="strategyText[strategyIndex].total">{{strategyText[strategyIndex].total}}</div>
-          </div>
+    <el-card>
+      <template #header>
+        <div class="card-header" style="text-align: center;">
+          <span>동국의대 체중측정기</span>
         </div>
+      </template>
+      <el-card>
+        <el-row>
+          <el-collapse>
+            <el-collapse-item title="연구에 대해" name="1">
+              <div>
+                🚑응급 상황에서 약물 투여 시, 환자의 체중에 맞추어 정확한 용량
+                을 신속하게 투여할 필요가 있습니다. 하지만 환자가 의식이 없을 경
+                우, 체중을 정확히 알 수 없어 어림짐작하여 약물을 투여합니다. 이
+                과정에서 발생하는 심각한 오류를 줄이기 위해, 저희는 쉽게 측정 가
+                능한 신체 둘레를 활용하여 체중값을 추정식을 유도하고자 합니다.
+              </div>
+            </el-collapse-item>
+            <el-collapse-item title="측정법" name="2">
+              <div>
+                예상 체중 = -37.448 + 0.814 * 복부 둘레 + 1.279 * 왼쪽 팔 둘레
+              </div>
+            </el-collapse-item>
+          </el-collapse>
+        </el-row>
+        <el-row style="margin-top: 20px;">
+          <el-form label-position="right" label-width="100px">
+            <el-form-item label="복부 둘레">
+              <el-input v-model="belly" type="number"></el-input>
+            </el-form-item>
+            <el-form-item label="왼쪽 팔 둘레">
+              <el-input v-model="arm" type="number"></el-input>
+            </el-form-item>
+          </el-form>
+          <el-button style="float: right;" @click="calculate">계산하기</el-button>
+        </el-row>
+        <el-row style="text-align: center;">
+          <span>예상 체중: </span>
+          <span>{{weight}}</span>
+        </el-row>
       </el-card>
-
-    </el-card>
-    <el-card class="box-card">
-      <div>체크리스트 작성하기</div>
-      <div style="margin-top: 15px">Good</div>
-      <div>
-        <el-checkbox v-for="i in [1,2,3,4,5]" v-model="goodChecked[i]" :key="i">{{i}}</el-checkbox>
-      </div>
-      <div style="margin-top: 15px">Bad</div>
-      <div>
-        <el-checkbox v-for="i in [1,2,3,4,5]" v-model="badChecked[i]" :key="i">{{i}}</el-checkbox>
-      </div>
-      <el-row style="margin-top: 15px;">
-        <el-button @click="addDiary">추가하기</el-button>
-      </el-row>
-    </el-card>
-    <el-card class="box-card demo-progress">
-      <div style="margin-bottom: 15px">
-        결과
-        <el-button type="info" size="small" style="margin-left: 10px;" @click="clear">초기화</el-button>
-      </div>
-      <el-card style="margin-bottom: 15px">
-        <div>현재 작성한 일화 {{diaryCount}} 개</div>
-        <div>긍정 체크 {{checkedGood}} / {{totalGood}} 개</div>
-        <div>부정 체크 {{checkedBad}} / {{totalBad}} 개</div>
-        <div>Score Good: {{goodTotalScore}} / Bad: {{totalScore}}</div>
-      </el-card>
-      <el-progress v-if="strategyIndex != null && strategyIndex != 1 && strategyIndex != 4" :stroke-width="12"
-        type="circle" status="exception" :percentage=totalScore></el-progress>
-      <el-progress v-if="strategyIndex == 1 || strategyIndex == 4" type="circle" :stroke-width="12"
-        :percentage=goodTotalScore status="success"></el-progress>
-      <el-progress v-if="strategyIndex == 1 || strategyIndex == 4" type="circle" :stroke-width="12"
-        :percentage=totalScore status="exception"></el-progress>
     </el-card>
   </el-main>
 </el-container>
-<script src="./gauge_test.js"></script>
+<script>
+  new Vue({
+    el: "#app",
+    data() {
+      return {
+        belly: null,
+        arm: null,
+        weight: null,
+        // age: 0,
+        numberValidateForm: { a: '' }
+      }
+    },
+    methods: {
+      calculate() {
+        this.weight = -37.448 + 0.814 * Number(this.belly) + 1.279 * Number(this.arm);
+      }
+    }
+  });
+</script>
 </body>
 
 </html>
